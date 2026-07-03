@@ -99,10 +99,14 @@ export default function Page() {
 
   const handleUpload = useCallback(async () => {
     if (!file) return;
-    const sid = genSessionId();
-    setSessionId(sid); setSegments([]); setError(""); setProgress(0); setState("uploading"); openStream(sid);
 
-    // Read the whole file as base64 — no chunking
+    const sid = genSessionId();
+    setSessionId(sid);
+    setSegments([]);
+    setError("");
+    setProgress(0);
+    setState("uploading");
+
     const arrayBuffer = await file.arrayBuffer();
     const base64 = Buffer.from(arrayBuffer).toString("base64");
 
@@ -110,7 +114,8 @@ export default function Page() {
     setTotalChunks(1);
 
     const res = await fetch(`${API_BASE}/api/ingest`, {
-      method: "POST", headers: { "Content-Type": "application/json" },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         audioData: base64,
         filename: file.name,
@@ -123,10 +128,10 @@ export default function Page() {
       const err = await res.json();
       setError(err.message || "Ingest failed");
       setState("error");
-      esRef.current?.close();
       return;
     }
 
+    openStream(sid);
     setProgress(100);
     setState("processing");
   }, [file, openStream]);
