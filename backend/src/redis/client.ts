@@ -1,9 +1,6 @@
 import Redis from "ioredis";
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
-// export const redis = new Redis(REDIS_URL, { maxRetriesPerRequest: 3, enableReadyCheck: true, lazyConnect: true });
-export const redis = new Redis(process.env.REDIS_URL!, {
-  tls: process.env.REDIS_URL?.startsWith("rediss://") ? {} : undefined,
-});
+export const redis = new Redis(REDIS_URL, { maxRetriesPerRequest: 3, enableReadyCheck: true, lazyConnect: true });
 export function createSubscriber(): Redis {
   return new Redis(REDIS_URL, { maxRetriesPerRequest: null, enableReadyCheck: false });
 }
