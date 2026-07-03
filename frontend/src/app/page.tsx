@@ -20,16 +20,6 @@ type PipelineState = "idle" | "uploading" | "processing" | "done" | "error";
 
 function genSessionId() { return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`; }
 
-async function* chunkFile(file: File, size: number) {
-  const total = Math.ceil(file.size / size);
-  for (let i = 0; i < total; i++) {
-    const slice = file.slice(i * size, (i + 1) * size);
-    const buf = await slice.arrayBuffer();
-    const b64 = btoa(String.fromCharCode(...new Uint8Array(buf)));
-    yield { data: b64, index: i, total, isLast: i === total - 1 };
-  }
-}
-
 const Logo = () => (
   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-label="Pocket Pipeline">
     <rect width="30" height="30" rx="8" fill="#01696f"/>
