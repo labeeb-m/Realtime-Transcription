@@ -71,6 +71,17 @@ export default function Page() {
   const transcriptRef = useRef<HTMLDivElement>(null);
   const esRef = useRef<EventSource | null>(null);
 
+  async function fileToBase64(file: File): Promise<string> {
+    const arrayBuffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    let binary = "";
+    const chunkSize = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    }
+    return btoa(binary);
+}
+
   const pollQueue = useCallback(async () => {
     try {
       const r = await fetch(`${API_BASE}/api/ingest/status`);
@@ -107,8 +118,7 @@ export default function Page() {
     setProgress(0);
     setState("uploading");
 
-    const arrayBuffer = await file.arrayBuffer();
-    const base64 = Buffer.from(arrayBuffer).toString("base64");
+    const base64 = await fileToBase64(file);
 
     setProgress(50);
     setTotalChunks(1);
