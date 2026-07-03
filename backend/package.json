@@ -8,15 +8,16 @@
     "dev:worker": "ts-node-dev --respawn --transpile-only src/worker/transcriber.ts",
     "start": "node dist/api/server.js",
     "start:worker": "node dist/worker/transcriber.js",
-    "start:all": "node dist/api/server.js & node dist/worker/transcriber.js & wait"
+    "start:all": "concurrently \"node dist/api/server.js\" \"node dist/worker/transcriber.js\""
   },
   "dependencies": {
-    "bullmq": "^5.7.8",
-    "fastify": "^4.27.0",
+    "@deepgram/sdk": "^3.4.0",
     "@fastify/cors": "^9.0.1",
+    "bullmq": "^5.7.8",
+    "concurrently": "^10.0.3",
+    "fastify": "^4.27.0",
     "ioredis": "^5.3.2",
-    "uuid": "^9.0.1",
-    "@deepgram/sdk": "^3.4.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
