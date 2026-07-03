@@ -8,7 +8,7 @@
     "dev:worker": "ts-node-dev --respawn --transpile-only src/worker/transcriber.ts",
     "start": "node dist/api/server.js",
     "start:worker": "node dist/worker/transcriber.js",
-    "start:all": "node dist/api/server.js & node dist/worker/transcriber.js & wait"
+    "start:all": "concurrently \"node dist/api/server.js\" \"node dist/worker/transcriber.js\""
   },
   "dependencies": {
     "bullmq": "^5.7.8",
