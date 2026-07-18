@@ -1,4 +1,4 @@
-# pocket-pipeline-demo
+# Real-time-transcription-pipeline
 
 > Real-time audio ingestion, transcription, and SSE streaming pipeline.
 
@@ -115,8 +115,6 @@ environment:
 ```bash
 docker compose up --build
 ```
-
-This starts three containers: `pocket-api` (port 3001), `pocket-worker` (×2 replicas), and `redis`.
 
 ### 3. Start the frontend
 
